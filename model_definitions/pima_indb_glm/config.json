@@ -1,0 +1,17 @@
+{
+   "hyperParameters": {
+        "scale_method":"STD",
+        "miss_value":"KEEP",
+        "global_scale": "False",
+        "multiplier":"1",
+        "intercept":"0",
+        "family": "BINOMIAL", 
+        "learning_rate": "OPTIMAL",
+        "momentum": 0.80,
+        "initial_eta": 0.05,
+        "local_sgd_iterations": 10,
+        "iter_max": 100,
+        "batch_size": 50,
+        "iter_num_no_change": 5
+   }
+}

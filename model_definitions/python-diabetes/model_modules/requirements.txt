@@ -4,6 +4,6 @@ xgboost==0.90
 scikit-learn==0.24.2
 shap==0.41.0
 matplotlib==3.5.2
-teradataml==17.20.0.4
+teradataml==17.20.0.5
 nyoka==4.3.0
 teradatamodelops==7.0.2

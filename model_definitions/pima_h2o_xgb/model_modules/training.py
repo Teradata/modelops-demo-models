@@ -9,16 +9,25 @@ import os
 import h2o
 from h2o.automl import H2OAutoML
 
-
 def check_java():
-    try:
-        print(os.environ['JAVA_HOME'])
-    except:
-        print ('Installing Java...')
-        import jdk
-        jdk.install('17', path='/usr/local/jdk')
-        os.environ['JAVA_HOME'] = '/usr/local/jdk/jdk-17.0.7+7'
+    # Set a default JAVA_HOME if it's not already set
+    default_java_home = '/home/jovyan/.jdk/jdk-17.0.9+9'
+    os.environ['JAVA_HOME'] = os.getenv('JAVA_HOME', default_java_home)
 
+    # Check if Java is already installed
+    if not os.path.isdir(os.environ['JAVA_HOME']):
+
+        import jdk
+
+        print('Installing Java...')
+
+        jdk.install('17', path='/home/jovyan/.jdk')
+        # Update JAVA_HOME and PATH after successful installation
+        os.environ['JAVA_HOME'] = f'/home/jovyan/.jdk/jdk-17.0.9+9'
+        os.environ['PATH'] = f"{os.environ.get('PATH')}:{os.environ.get('JAVA_HOME')}/bin"
+    
+    else:
+        print(f"Java is installed at {os.environ['JAVA_HOME']}")
 
 def train(context: ModelContext, **kwargs):
     aoa_create_context()

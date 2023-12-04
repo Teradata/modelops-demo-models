@@ -1,0 +1,6 @@
+{
+    "id": "5b41d4d4-7236-54ab-846a-01c3151e1fd9",
+    "name": "Python PIMA XGBoost InDB",
+    "description": "Python PIMA XGBoost inDB for Diabetes Prediction",
+    "language": "python"
+}

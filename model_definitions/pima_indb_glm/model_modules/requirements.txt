@@ -1,4 +1,4 @@
-teradataml==17.20.0.3
+teradataml==17.20.0.4
 aoa==7.0.1
 pandas==1.1.5
 scikit-learn==0.24.2

@@ -10,22 +10,24 @@ import h2o
 from h2o.automl import H2OAutoML
 
 def check_java():
-    # Set a default JAVA_HOME if it's not already set
-    default_java_home = '/home/jovyan/.jdk/jdk-17.0.9+9'
-    os.environ['JAVA_HOME'] = os.getenv('JAVA_HOME', default_java_home)
-
+    # Determine the home directory of the current user
+    user_home_dir = os.path.expanduser('~')
+ 
+    # Construct the Java installation path in the user's home directory
+    java_home_path = os.path.join(user_home_dir, '.jdk', 'jdk-17.0.9+9')
+    # Set JAVA_HOME to the default or existing environment value
+    os.environ['JAVA_HOME'] = os.getenv('JAVA_HOME', java_home_path)
+ 
     # Check if Java is already installed
     if not os.path.isdir(os.environ['JAVA_HOME']):
-
-        import jdk
-
         print('Installing Java...')
-
-        jdk.install('17', path='/home/jovyan/.jdk')
+ 
+        # Install Java in the user's home directory
+        jdk.install('17', path=os.path.join(user_home_dir, '.jdk'))
+ 
         # Update JAVA_HOME and PATH after successful installation
-        os.environ['JAVA_HOME'] = f'/home/jovyan/.jdk/jdk-17.0.9+9'
+        os.environ['JAVA_HOME'] = java_home_path
         os.environ['PATH'] = f"{os.environ.get('PATH')}:{os.environ.get('JAVA_HOME')}/bin"
-    
     else:
         print(f"Java is installed at {os.environ['JAVA_HOME']}")
 

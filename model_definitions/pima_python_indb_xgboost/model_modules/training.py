@@ -33,20 +33,23 @@ def compute_feature_importance(trees_json):
         tree = json.loads(tree_json)
         traverse_tree(tree, feature_counter)
     total_splits = sum(feature_counter.values())
-    feature_importance = {feature: count / total_splits for feature, count in feature_counter.items()}
+    feature_importance = {
+        feature: count / total_splits for feature, count in feature_counter.items()}
     return feature_importance
 
 
 def plot_feature_importance(fi, img_filename):
     feat_importances = pd.Series(fi)
-    feat_importances.nlargest(10).plot(kind='barh').set_title('Feature Importance')
+    feat_importances.nlargest(10).plot(
+        kind='barh').set_title('Feature Importance')
     fig = plt.gcf()
     fig.savefig(img_filename, dpi=500)
     plt.clf()
-    
+
+
 def train(context: ModelContext, **kwargs):
     aoa_create_context()
-    
+
     feature_names = context.dataset_info.feature_names
     target_name = context.dataset_info.target_names[0]
     entity_key = context.dataset_info.entity_key
@@ -54,45 +57,47 @@ def train(context: ModelContext, **kwargs):
     # read training dataset from Teradata and convert to pandas
     train_df = DataFrame.from_query(context.dataset_info.sql)
 
-    print ("Scaling using InDB Functions...")
-    
+    print("Scaling using InDB Functions...")
+
     scaler = ScaleFit(
         data=train_df,
-        target_columns = feature_names,
-        scale_method = context.hyperparams["scale_method"],
-        miss_value = context.hyperparams["miss_value"],
-        global_scale = context.hyperparams["global_scale"].lower() in ['true', '1'],
-        multiplier = context.hyperparams["multiplier"],
-        intercept = context.hyperparams["intercept"]
+        target_columns=feature_names,
+        scale_method=context.hyperparams["scale_method"],
+        miss_value=context.hyperparams["miss_value"],
+        global_scale=context.hyperparams["global_scale"].lower() in [
+            'true', '1'],
+        multiplier=context.hyperparams["multiplier"],
+        intercept=context.hyperparams["intercept"]
     )
 
     scaled_train = ScaleTransform(
         data=train_df,
         object=scaler.output,
-        accumulate = [target_name,entity_key]
+        accumulate=[target_name, entity_key]
     )
-    
-    scaler.output.to_sql(f"scaler_${context.model_version}", if_exists="replace")
+
+    scaler.output.to_sql(
+        f"scaler_${context.model_version}", if_exists="replace")
     print("Saved scaler")
-    
+
     print("Starting training...")
 
     model = XGBoost(
-        data = scaled_train.result,
-        input_columns = feature_names,
-        response_column = target_name,
-        model_type = context.hyperparams["model_type"],
-        lambda1 = context.hyperparams["lambda1"],
+        data=scaled_train.result,
+        input_columns=feature_names,
+        response_column=target_name,
+        model_type=context.hyperparams["model_type"],
+        lambda1=context.hyperparams["lambda1"],
     )
 
-    model.result.to_sql(f"model_${context.model_version}", if_exists="replace")  
+    model.result.to_sql(f"model_${context.model_version}", if_exists="replace")
     print("Saved trained model")
 
     # Calculate feature importance and generate plot
     model_pdf = model.result.to_pandas()['classification_tree']
     feature_importance = compute_feature_importance(model_pdf)
-    plot_feature_importance(feature_importance, f"{context.artifact_output_path}/feature_importance")
-    
+    plot_feature_importance(
+        feature_importance, f"{context.artifact_output_path}/feature_importance")
 
     record_training_stats(
         train_df,
@@ -102,5 +107,5 @@ def train(context: ModelContext, **kwargs):
         feature_importance=feature_importance,
         context=context
     )
-    
+
     print("All done!")

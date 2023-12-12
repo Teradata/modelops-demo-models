@@ -13,7 +13,7 @@ import pandas as pd
 
 
 def score(context: ModelContext, **kwargs):
-    
+
     aoa_create_context()
 
     model = DataFrame(f"model_${context.model_version}")
@@ -27,28 +27,29 @@ def score(context: ModelContext, **kwargs):
     features_pdf = features_tdf.to_pandas(all_rows=True)
 
     # Scaling the test set
-    print ("Loading scaler...")
+    print("Loading scaler...")
     scaler = DataFrame(f"scaler_${context.model_version}")
 
     scaled_test = ScaleTransform(
         data=test_df,
         object=scaler,
-        accumulate = entity_key
+        accumulate=entity_key
     )
-    
+
     print("Scoring...")
     predictions = XGBoostPredict(
         object=model,
         newdata=scaled_test.result,
-        model_type = 'Classification',
+        model_type='Classification',
         id_column=entity_key,
         output_prob=True,
-        output_responses=['0','1'],
-        object_order_column=['task_index', 'tree_num', 'iter', 'class_num', 'tree_order']
+        output_responses=['0', '1'],
+        object_order_column=['task_index', 'tree_num',
+                             'iter', 'class_num', 'tree_order']
     )
-     
 
-    predictions_pdf = predictions.result.to_pandas(all_rows=True).rename(columns={"Prediction": target_name}).astype(int)
+    predictions_pdf = predictions.result.to_pandas(all_rows=True).rename(
+        columns={"Prediction": target_name}).astype(int)
 
     print("Finished Scoring")
 
@@ -69,7 +70,8 @@ def score(context: ModelContext, **kwargs):
     # )
     # PRIMARY INDEX ( job_id );
     predictions_pdf["json_report"] = ""
-    predictions_pdf = predictions_pdf[["job_id", entity_key, target_name, "json_report"]]
+    predictions_pdf = predictions_pdf[[
+        "job_id", entity_key, target_name, "json_report"]]
 
     copy_to_sql(
         df=predictions_pdf,
@@ -78,7 +80,7 @@ def score(context: ModelContext, **kwargs):
         index=False,
         if_exists="append"
     )
-    
+
     print("Saved predictions in Teradata")
 
     # calculate stats
@@ -89,6 +91,7 @@ def score(context: ModelContext, **kwargs):
             WHERE job_id = '{context.job_id}'
     """)
 
-    record_scoring_stats(features_df=features_tdf, predicted_df=predictions_df, context=context)
+    record_scoring_stats(features_df=features_tdf,
+                         predicted_df=predictions_df, context=context)
 
     print("All done!")

@@ -59,15 +59,23 @@ def train(context: ModelContext, **kwargs):
 
     print("Scaling using InDB Functions...")
 
+    # Extract and cast hyperparameters
+    scale_method = str(context.hyperparams["scale_method"])
+    miss_value = str(context.hyperparams["miss_value"])
+    global_scale = str(context.hyperparams["global_scale"]).lower() in ['true', '1']
+    multiplier = str(context.hyperparams["multiplier"])
+    intercept = str(context.hyperparams["intercept"])
+    model_type = str(context.hyperparams["model_type"])
+    lambda1 = float(context.hyperparams["Lambda1"])
+
     scaler = ScaleFit(
         data=train_df,
         target_columns=feature_names,
-        scale_method=context.hyperparams["scale_method"],
-        miss_value=context.hyperparams["miss_value"],
-        global_scale=context.hyperparams["global_scale"].lower() in [
-            'true', '1'],
-        multiplier=context.hyperparams["multiplier"],
-        intercept=context.hyperparams["intercept"]
+        scale_method=scale_method,
+        miss_value=miss_value,
+        global_scale=global_scale,
+        multiplier=multiplier,
+        intercept=intercept
     )
 
     scaled_train = ScaleTransform(
@@ -86,8 +94,8 @@ def train(context: ModelContext, **kwargs):
         data=scaled_train.result,
         input_columns=feature_names,
         response_column=target_name,
-        model_type=context.hyperparams["model_type"],
-        lambda1=context.hyperparams["lambda1"],
+        model_type=model_type,
+        lambda1=lambda1
     )
 
     model.result.to_sql(f"model_${context.model_version}", if_exists="replace")

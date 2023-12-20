@@ -1,6 +1,0 @@
-{
-    "id": "5b41d4d4-7236-54ab-846a-01c3661e1f32",
-    "name": "In-database Diabetes Prediction",
-    "description": "In-database XGBoost for Diabetes Prediction",
-    "language": "python"
-}

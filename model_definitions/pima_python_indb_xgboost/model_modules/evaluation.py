@@ -94,7 +94,8 @@ def evaluate(context: ModelContext, **kwargs):
 
     aoa_create_context()
 
-    model = DataFrame(f"model_${context.model_version}")
+    print(f"Loading model from table model_{context.model_version}")
+    model = DataFrame(f"model_{context.model_version}")
 
     feature_names = context.dataset_info.feature_names
     target_name = context.dataset_info.target_names[0]
@@ -103,8 +104,8 @@ def evaluate(context: ModelContext, **kwargs):
     test_df = DataFrame.from_query(context.dataset_info.sql)
 
     # Scaling the test set
-    print("Loading scaler...")
-    scaler = DataFrame(f"scaler_${context.model_version}")
+    print(f"Loading scaler from table scaler_{context.model_version}")
+    scaler = DataFrame(f"scaler_{context.model_version}")
 
     scaled_test = ScaleTransform(
         data=test_df,

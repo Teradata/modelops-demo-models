@@ -85,8 +85,8 @@ def train(context: ModelContext, **kwargs):
     )
 
     scaler.output.to_sql(
-        f"scaler_${context.model_version}", if_exists="replace")
-    print("Saved scaler")
+        f"scaler_{context.model_version}", if_exists="replace")
+    print(f"Saved scaler in table scaler_{context.model_version}")
 
     print("Starting training...")
 
@@ -98,8 +98,9 @@ def train(context: ModelContext, **kwargs):
         lambda1=lambda1
     )
 
-    model.result.to_sql(f"model_${context.model_version}", if_exists="replace")
-    print("Saved trained model")
+    model.result.to_sql(
+        f"model_{context.model_version}", if_exists="replace")
+    print(f"Saved trained model in table model_{context.model_version}")
 
     # Calculate feature importance and generate plot
     model_pdf = model.result.to_pandas()['classification_tree']

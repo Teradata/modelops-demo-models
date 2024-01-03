@@ -14,6 +14,7 @@ The example use case we deal with in this demo project is diabetes prediction. M
 
 `Git` models are those models where we manage all the code for training evaluation and scoring. We provide examples in both Python and R and we provide notebooks for the Python example.
 
+- [In-database Model Prediction](model_definitions/pima_python_indb_xgboost)
 - [Python Diabetes Prediction](model_definitions/python-diabetes)
 - [R Diabetes Prediction](model_definitions/r-diabetes)
 

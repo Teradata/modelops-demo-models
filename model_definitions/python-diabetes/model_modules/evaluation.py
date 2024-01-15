@@ -44,10 +44,10 @@ def evaluate(context: ModelContext, **kwargs):
     with open(f"{context.artifact_output_path}/metrics.json", "w+") as f:
         json.dump(evaluation, f)
 
-    metrics.ConfusionMatrixDisplay.from_predictions(y_test, y_pred)
+    metrics.plot_confusion_matrix(model, X_test, y_test)
     save_plot('Confusion Matrix', context=context)
 
-    metrics.RocCurveDisplay.from_predictions(y_test, y_pred)
+    metrics.plot_roc_curve(model, X_test, y_test)
     save_plot('ROC Curve', context=context)
 
     # xgboost has its own feature importance plot support but lets use shap as explainability example

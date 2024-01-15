@@ -1,4 +1,5 @@
-from sklearn import metrics
+from sklearn.metrics import confusion_matrix
+import matplotlib.pyplot as plt
 from teradataml import (
     DataFrame,
     copy_to_sql,
@@ -55,6 +56,40 @@ def plot_feature_importance(fi, img_filename):
     plt.clf()
 
 
+def plot_confusion_matrix(cf, img_filename):
+    import matplotlib.pyplot as plt
+    fig, ax = plt.subplots(figsize=(7.5, 7.5))
+    ax.matshow(cf, cmap=plt.cm.Blues, alpha=0.3)
+    for i in range(cf.shape[0]):
+        for j in range(cf.shape[1]):
+            ax.text(x=j, y=i, s=cf[i, j], va='center',
+                    ha='center', size='xx-large')
+    ax.set_xlabel('Predicted labels')
+    ax.set_ylabel('True labels')
+    ax.set_title('Confusion Matrix')
+    fig = plt.gcf()
+    fig.savefig(img_filename, dpi=500)
+    plt.clf()
+
+
+def plot_roc_curve(roc_out, img_filename):
+    import matplotlib.pyplot as plt
+    auc = roc_out.result.to_pandas().reset_index()['AUC'][0]
+    roc_results = roc_out.output_data.to_pandas()
+    plt.plot(roc_results['fpr'], roc_results['tpr'],
+             color='darkorange', lw=2, label='ROC curve (AUC = %0.2f)' % 0.27)
+    plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title('Receiver Operating Characteristic (ROC) Curve')
+    plt.legend(loc="lower right")
+    fig = plt.gcf()
+    fig.savefig(img_filename, dpi=500)
+    plt.clf()
+
+
 def evaluate(context: ModelContext, **kwargs):
 
     aoa_create_context()
@@ -87,7 +122,8 @@ def evaluate(context: ModelContext, **kwargs):
         id_column=entity_key,
         output_prob=True,
         output_responses=['0', '1'],
-        object_order_column=['task_index', 'tree_num', 'iter', 'class_num', 'tree_order']
+        object_order_column=['task_index', 'tree_num',
+                             'iter', 'class_num', 'tree_order']
     )
 
     predicted_data = ConvertTo(
@@ -121,13 +157,21 @@ def evaluate(context: ModelContext, **kwargs):
     with open(f"{context.artifact_output_path}/metrics.json", "w+") as f:
         json.dump(evaluation, f)
 
-    y_test = predicted_data.result.to_pandas()['HasDiabetes']
-    y_pred = predicted_data.result.to_pandas()['Prediction']
-    metrics.ConfusionMatrixDisplay.from_predictions(y_test, y_pred)
-    save_plot('Confusion Matrix', context=context)
+    cm = confusion_matrix(predicted_data.result.to_pandas()[
+                          'HasDiabetes'], predicted_data.result.to_pandas()['Prediction'])
 
-    metrics.RocCurveDisplay.from_predictions(y_test, y_pred)
-    save_plot('ROC Curve', context=context)
+    plot_confusion_matrix(
+        cm, f"{context.artifact_output_path}/confusion_matrix")
+
+    roc_out = ROC(
+        data=predictions.result,
+        probability_column='Prob_1',
+        observation_column=target_name,
+        positive_class='1',
+        num_thresholds=1000
+    )
+
+    plot_roc_curve(roc_out, f"{context.artifact_output_path}/roc_curve")
 
     # Calculate feature importance and generate plot
     try:

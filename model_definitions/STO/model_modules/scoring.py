@@ -21,7 +21,7 @@ def score(context: ModelContext, **kwargs):
 	aoa_create_context()
 	
 	model_version = context.model_version
-	model_table = context.model_table
+	model_table = "vmo_sto_models"
 
 	check_sto_version()
 

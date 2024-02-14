@@ -25,7 +25,7 @@ def train(context: ModelContext, **kwargs):
 
 	model_version = context.model_version
 	hyperparams = context.hyperparams
-	model_artefacts_table = context.model_table
+	model_artefacts_table = "vmo_sto_models"
 	
 	check_sto_version()
 

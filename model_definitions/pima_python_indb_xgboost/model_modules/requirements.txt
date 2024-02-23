@@ -1,6 +1,6 @@
 pandas==1.5.3
 teradataml==17.20.0.4
-teradatamodelops==7.0.3
+teradatamodelops==7.0.5
 matplotlib==3.5.2
 PyYAML==5.4.1
 scikit-learn==1.0.2

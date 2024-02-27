@@ -33,8 +33,6 @@ def score(context: ModelContext, **kwargs):
     # add job_id column so we know which execution this is from if appended to predictions table
     predictions_pdf["job_id"] = context.job_id
 
-    print(f"JOB_ID is {context.job_id}")
-
     # teradataml doesn't match column names on append.. and so to match / use same table schema as for byom predict
     # example (see README.md), we must add empty json_report column and change column order manually (v17.0.0.4)
     # CREATE TABLE pima_patient_predictions

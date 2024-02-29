@@ -24,4 +24,8 @@ The example use case we deal with in this demo project is diabetes prediction. M
 
 - [Diabetes Prediction](byom/pima)
 
+#### STO
 
+`STO` allow us to train, evaluate and score micro models (individual models per data partition in Teradata). We provide notebooks for the Python STO example.
+
+- [Diabetes Prediction](model_definitions/STO)

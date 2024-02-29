@@ -59,6 +59,6 @@ def score(context: ModelContext, **kwargs):
 										('prediction', INTEGER())]))
 	
 
-	scored_df.to_sql(context.dataset_info.predictions_table, if_exists="replace")
+	scored_df.to_sql(context.dataset_info.predictions_table, if_exists="append")
 
 	print("Finished scoring")

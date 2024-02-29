@@ -89,6 +89,7 @@ def evaluate(context: ModelContext, **kwargs):
 	eval_df.to_sql("sto_eval_results", if_exists="replace", temporary=True)
 	eval_df = DataFrame("sto_eval_results")
 	
+	save_metadata(eval_df)
 	save_evaluation_metrics(eval_df, ["MAE", "MSE", "R2"])
 
 	print("Finished evaluation")

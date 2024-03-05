@@ -1,14 +1,9 @@
 from teradataml import DataFrame
-from teradatasqlalchemy.types import INTEGER, VARCHAR, CLOB
+from teradatasqlalchemy.types import INTEGER
 from collections import OrderedDict
 from .util import get_df_with_model
-from aoa import record_scoring_stats
 from aoa.util import (
-	save_metadata,
-	cleanup_cli,
 	check_sto_version,
-	collect_sto_versions,
-	save_evaluation_metrics,
 	aoa_create_context,
 	ModelContext
 )
@@ -56,9 +51,9 @@ def score(context: ModelContext, **kwargs):
 										data_partition_column="partition_id",
 										returns=OrderedDict(
 										[('PatientId', INTEGER()),
-										('prediction', INTEGER())]))
+										('HasDiabetes', INTEGER())]))
 	
-
+	scored_df = scored_df.assign(job_id = context.job_id, json_report = None).select(['job_id', 'PatientId', 'HasDiabetes', 'json_report'])
 	scored_df.to_sql(context.dataset_info.predictions_table, if_exists="append")
 
 	print("Finished scoring")

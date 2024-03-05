@@ -6,9 +6,7 @@ from aoa import ModelContext
 from .util import get_df_with_model
 from aoa.util import (
 	save_metadata,
-	cleanup_cli,
 	check_sto_version,
-	collect_sto_versions,
 	save_evaluation_metrics,
 	aoa_create_context
 )

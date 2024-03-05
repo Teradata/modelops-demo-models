@@ -1,11 +1,10 @@
-from teradataml import DataFrame, get_context
+from teradataml import DataFrame
 from teradatasqlalchemy.types import INTEGER, VARCHAR, CLOB
 from sklearn.pipeline import Pipeline
 from xgboost import XGBClassifier
 from sklearn.preprocessing import MinMaxScaler
 from collections import OrderedDict
-from aoa import ModelContext, record_training_stats
-from aoa.util.byom import store_byom_tmp
+from aoa import ModelContext
 from aoa.util import (
 	save_metadata,
 	cleanup_cli,
@@ -28,6 +27,8 @@ def train(context: ModelContext, **kwargs):
 	model_artefacts_table = "vmo_sto_models"
 	
 	check_sto_version()
+
+	cleanup_cli("cli")
 
 	# select the training datast via the fold_id
 	df = DataFrame.from_query(context.dataset_info.sql)
@@ -97,3 +98,6 @@ def train(context: ModelContext, **kwargs):
 	save_metadata(model_df)
 
 	print("Finished training")
+
+	with open(f"{context.artifact_output_path}/sto_versions.json", "w+") as f:
+		json.dump(collect_sto_versions(), f)

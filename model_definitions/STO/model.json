@@ -3,5 +3,16 @@
     "name": "STO Diabetes Prediction",
     "description": "STO XGBoost for Diabetes Prediction",
     "language": "python",
-    "source_model_id": "03c9a01f-bd46-4e7c-9a60-4284039097a2"
+    "source_model_id": "03c9a01f-bd46-4e7c-9a60-4284039097a2",
+	"automation": {
+		"training": {
+			"dockerImage": "artifacts.td.teradata.com/tdproduct-docker-snapshot/avmo/vmo-python-base:3.8.2"
+		},
+		"evaluation": {
+			"dockerImage": "artifacts.td.teradata.com/tdproduct-docker-snapshot/avmo/vmo-python-base:3.8.2"
+		},
+		"deployment": {
+			"dockerImage": "artifacts.td.teradata.com/tdproduct-docker-snapshot/avmo/vmo-python-base:3.8.2"
+		}
+	}
 }

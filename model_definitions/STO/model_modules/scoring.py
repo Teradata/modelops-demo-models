@@ -23,8 +23,11 @@ def score(context: ModelContext, **kwargs):
     check_sto_version()
 
     if model_version == "cli":
-        execute_sql(
-            f"DELETE FROM {context.dataset_info.predictions_table} WHERE job_id='cli'")
+        try:
+            execute_sql(
+                f"DELETE FROM {context.dataset_info.predictions_table} WHERE job_id='cli'")
+        except:
+            print("Something went wrong trying to cleanup cli model version, maybe it's nothing")
 
     df = DataFrame.from_query(context.dataset_info.sql)
 

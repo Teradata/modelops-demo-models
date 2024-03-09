@@ -29,7 +29,10 @@ def train(context: ModelContext, **kwargs):
 
     check_sto_version()
 
-    cleanup_cli("cli")
+    try:
+        cleanup_cli(model_version)
+    except:
+        print("Something went wrong trying to cleanup cli model version, maybe it's nothing")
 
     # select the training datast via the fold_id
     df = DataFrame.from_query(context.dataset_info.sql)

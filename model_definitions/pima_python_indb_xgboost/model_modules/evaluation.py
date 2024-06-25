@@ -1,10 +1,7 @@
 from sklearn.metrics import confusion_matrix
-import matplotlib.pyplot as plt
 from teradataml import (
     DataFrame,
     copy_to_sql,
-    get_context,
-    get_connection,
     ScaleTransform,
     XGBoostPredict,
     ConvertTo,
@@ -13,17 +10,13 @@ from teradataml import (
 )
 from aoa import (
     record_evaluation_stats,
-    save_plot,
     aoa_create_context,
     ModelContext
 )
 
-import joblib
 import json
-import numpy as np
 import pandas as pd
 import os
-
 
 def traverse_tree(tree, feature_counter):
     if 'split_' in tree and 'attr_' in tree['split_']:
@@ -97,7 +90,6 @@ def evaluate(context: ModelContext, **kwargs):
     print(f"Loading model from table model_{context.model_version}")
     model = DataFrame(f"model_{context.model_version}")
 
-    feature_names = context.dataset_info.feature_names
     target_name = context.dataset_info.target_names[0]
     entity_key = context.dataset_info.entity_key
 
@@ -167,7 +159,7 @@ def evaluate(context: ModelContext, **kwargs):
         data=predictions.result,
         probability_column='Prob_1',
         observation_column=target_name,
-        positive_class='1',
+        positive_class="1",
         num_thresholds=1000
     )
 

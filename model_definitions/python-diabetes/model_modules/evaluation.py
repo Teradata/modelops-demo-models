@@ -1,4 +1,6 @@
 from sklearn import metrics
+from sklearn.metrics import ConfusionMatrixDisplay
+from sklearn.metrics import RocCurveDisplay
 from teradataml import DataFrame, copy_to_sql
 from aoa import (
     record_evaluation_stats,
@@ -44,10 +46,10 @@ def evaluate(context: ModelContext, **kwargs):
     with open(f"{context.artifact_output_path}/metrics.json", "w+") as f:
         json.dump(evaluation, f)
 
-    metrics.plot_confusion_matrix(model, X_test, y_test)
+    ConfusionMatrixDisplay.from_predictions(y_test, y_pred)
     save_plot('Confusion Matrix', context=context)
 
-    metrics.plot_roc_curve(model, X_test, y_test)
+    RocCurveDisplay.from_predictions(y_test, y_pred)
     save_plot('ROC Curve', context=context)
 
     # xgboost has its own feature importance plot support but lets use shap as explainability example

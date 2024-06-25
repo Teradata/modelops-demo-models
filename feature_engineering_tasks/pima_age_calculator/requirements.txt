@@ -1,6 +1,5 @@
-numpy==1.26.2
+numpy==1.26.4
 pandas==2.1.4
-teradataml==17.20.0.7
-teradatamodelops==7.0.6
+teradatamodelops==7.1.0
 # These below are snyk vulnerabilities fixes
 pycryptodome>=3.19.1

@@ -159,7 +159,7 @@ def evaluate(context: ModelContext, **kwargs):
         data=predictions.result,
         probability_column='Prob_1',
         observation_column=target_name,
-        positive_class="1",
+        positive_class='1',
         num_thresholds=1000
     )
 

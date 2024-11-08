@@ -85,13 +85,13 @@ Batch Scoring is supported via the `score` method in [scoring.py](model_modules/
 The following table must exist to write (append) the scores into
 
 ```sql
-CREATE MULTISET TABLE pima_patient_predictions (
+CREATE TABLE pima_patient_predictions (
     job_id VARCHAR(255), -- comes from airflow on job execution
     PatientId BIGINT,    -- entity key as it is in the source data
     HasDiabetes BIGINT,   -- if model automatically extracts target 
     json_report CLOB(1048544000) CHARACTER SET UNICODE  -- output of 
  )
- PRIMARY INDEX ( job_id );
+ PRIMARY INDEX ( job_id, PatientId );
 ```
 
 

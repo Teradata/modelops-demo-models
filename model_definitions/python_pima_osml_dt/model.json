@@ -1,0 +1,6 @@
+{
+    "id": "7794bd1a-e932-450e-944b-8c6c3ed4db5e",
+    "name": "Diabetes Prediction using teradataml OpenSource DecisionTreeClassifier",
+    "description": "teradataml OpenSource DecisionTreeClassifier for Diabetes Predictions",
+    "language": "python"
+}

@@ -1,0 +1,8 @@
+{
+   "hyperParameters": {
+    "random_state":32,
+    "max_leaf_nodes":4,
+    "max_features":"auto",
+    "max_depth":4
+    }
+}

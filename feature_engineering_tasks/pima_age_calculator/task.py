@@ -5,7 +5,7 @@ import numpy as np
 
 def run_task(context: ModelContext, **kwargs):
     aoa_create_context()
-    df = DataFrame.from_query("sel * from pima_patient_features")
+    df = DataFrame.from_query("sel * from modelops.pima_patient_features")
     
     # Convert teradataml DataFrame to pandas DataFrame
     df_pd = df.to_pandas()

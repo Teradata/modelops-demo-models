@@ -1,0 +1,1 @@
+teradatamodelops>=7.1.8

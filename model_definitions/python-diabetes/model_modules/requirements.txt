@@ -1,9 +1,9 @@
 xgboost==3.0.1
 scikit-learn==1.6.1
 shap==0.47.2
-matplotlib==3.10.3
+matplotlib>=3.10.3
 nyoka==5.5.0
-teradatamodelops==7.2.0
+teradatamodelops>=7.2.0
 numpy==1.26.4
 # bump transient versions to fix vulnerabilities
 tqdm==4.66.3

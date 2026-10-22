@@ -1,10 +1,8 @@
-
-
 # Models
 
-This repository contains the example Diabetes Prediction model code for [Vantage ModelOps](https://docs.teradata.com/r/Teradata-VantageTM-ModelOps-User-Guide/June-2022). We provide a number of demo projects and associated repositories. The goal of these examples is to provide a simple reference implementation for users and not to provide a detailed data science example for each use case. 
+This repository contains the example Diabetes Prediction model code for [AI Studio ModelOps](https://docs.teradata.com/r/Teradata-AI-Studio-Model-Management/ModelOps/Using-ModelOps). We provide a number of demo projects and associated repositories. The goal of these examples is to provide a simple reference implementation for users and not to provide a detailed data science example for each use case. 
 
-Please refer to the [Official Documentation](https://docs.teradata.com/r/Teradata-VantageTM-ModelOps-User-Guide/June-2022) for more information.
+Please refer to the [Official Documentation](https://docs.teradata.com/r/Teradata-AI-Studio-Model-Management/ModelOps) for more information.
 
 ## Available Models
 
@@ -19,12 +17,10 @@ The example use case we deal with in this demo project is diabetes prediction. M
 
 #### BYOM
 
-`BYOM` is related to [Teradata BYOM](https://docs.teradata.com/r/Teradata-VantageTM-Bring-Your-Own-Model-User-Guide/May-2022/Bring-Your-Own-Model) where we use an open model format such as `PMML` or `ONNX`. In this example, we provide a notebook to produce the `PMML` model artefact along with examples for how to query it dynamically in Teradata. 
+`BYOM` is related to [Teradata BYOM](https://docs.teradata.com/r/Enterprise_IntelliFlex_Lake_VMware/Teradata-VantageTM-Bring-Your-Own-Model-User-Guide/Welcome-to-Bring-Your-Own-Model) where we use an open model format such as `PMML` or `ONNX`. In this example, we provide a notebook to produce the `PMML` model artefact along with examples for how to query it dynamically in Teradata. 
 
 - [Diabetes Prediction](byom/pima)
 
-#### STO
+---
 
-`STO` allow us to train, evaluate and score micro models (individual models per data partition in Teradata). We provide notebooks for the Python STO example.
-
-- [Diabetes Prediction](model_definitions/STO)
+_Copyright 2026 Teradata. All Rights Reserved._

@@ -1,7 +1,6 @@
 from sklearn.metrics import confusion_matrix
 from teradataml import (
     DataFrame,
-    copy_to_sql,
     ScaleTransform,
     XGBoostPredict,
     ConvertTo,
@@ -9,6 +8,7 @@ from teradataml import (
     ROC
 )
 from tmo import (
+    copy_to_sql,
     record_evaluation_stats,
     tmo_create_context,
     ModelContext

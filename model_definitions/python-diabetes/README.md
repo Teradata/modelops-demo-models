@@ -8,7 +8,7 @@ The dataset required to train or evaluate this model is the PIMA Indians Diabete
 
 ```python
 import pandas as pd
-from teradataml import copy_to_sql
+from tmo import copy_to_sql
 
 df = pd.read_csv("http://nrvis.com/data/mldata/pima-indians-diabetes.csv", header=None)
 df.columns = ["NumTimesPrg", "PlGlcConc", "BloodP", "SkinThick", "TwoHourSerIns", "BMI", "DiPedFunc", "Age", "HasDiabetes"]

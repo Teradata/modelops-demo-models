@@ -1,8 +1,9 @@
 from sklearn import metrics
 from sklearn.metrics import ConfusionMatrixDisplay
 from sklearn.metrics import RocCurveDisplay
-from teradataml import DataFrame, copy_to_sql
+from teradataml import DataFrame
 from tmo import (
+    copy_to_sql,
     record_evaluation_stats,
     save_plot,
     tmo_create_context,

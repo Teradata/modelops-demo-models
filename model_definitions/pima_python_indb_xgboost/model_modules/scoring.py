@@ -1,10 +1,10 @@
 from teradataml import (
-    copy_to_sql,
     DataFrame,
     XGBoostPredict,
     ScaleTransform
 )
 from tmo import (
+    copy_to_sql,
     record_scoring_stats,
     tmo_create_context,
     ModelContext

@@ -3,7 +3,7 @@ scikit-learn==1.6.1
 shap==0.47.2
 matplotlib>=3.10.8
 nyoka==5.5.0
-teradatamodelops==7.3.2
+teradatamodelops>=7.3.5
 numpy>=1.26.4
 # bump transient versions to fix vulnerabilities
 tqdm==4.66.3
